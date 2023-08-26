@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GraphQL Client</title>
+</head>
+<body>
+    <h1>GraphQL Client</h1>
+    <p>Getting greeting:
+        <strong id="greeting">Loading...</strong>
+    </p>
+
+    <script>
+        // Make a request to GraphQL Server -> use POST Method and provide body with a query
+        const grt = document.getElementById('greeting')
+        async function fetchGreeting(){
+
+            const response = await fetch('http://localhost:9000', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: 'query { greeting }'
+                })
+            })
+
+            const { data } = await response.json()
+
+            return data.greeting
+        }
+
+        // fetchGreeting().then((value)=> {
+        //     grt.textContent = value
+        // })
+
+        async function updateGreeting() {
+            const val = await fetchGreeting();
+            grt.textContent = val;
+        }
+
+        updateGreeting();
+
+    </script>
+</body>
+</html>
